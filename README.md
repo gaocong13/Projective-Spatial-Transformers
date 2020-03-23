@@ -24,4 +24,5 @@ We propose a novel Projective Spatial Transformer module that generalizes spatia
 ```bash
 pip install requirements.txt
 ```
-### Install ProST_Grid
+### Install ProST grid generator
+We implemented our ProST grid generator function using [PyTorch C++ and CUDA extension](https://pytorch.org/tutorials/advanced/cpp_extension.html). We take the camera intrinsic parameters (usually defined by the intrinsic matrix $K\in R^{3\times 3}$) as input,
