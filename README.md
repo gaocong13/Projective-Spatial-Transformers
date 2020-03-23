@@ -6,11 +6,11 @@ Pytorch implementation of **Pro**jective **S**patial **T**ransformers (**ProST**
 ![](imgs/mov.gif)
 
 Generalizing Spatial Transformers to Projective  Geometry with Applications to 2D/3D Registration
-[Cong Gao](http://www.cs.jhu.edu/~gaoc/), [Xingtong Liu](http://www.cs.jhu.edu/~xingtongl/), [Wenhao Gu], [Mehran Armand], [Russell Taylor](https://www.cs.jhu.edu/~rht/) and [Mathias Unberath](https://mathiasunberath.github.io/)
+[Cong Gao](http://www.cs.jhu.edu/~gaoc/), [Xingtong Liu](http://www.cs.jhu.edu/~xingtongl/), Wenhao Gu, [Mehran Armand](https://ep.jhu.edu/about-us/faculty-directory/861-mehran-armand), [Russell Taylor](https://www.cs.jhu.edu/~rht/) and [Mathias Unberath](https://mathiasunberath.github.io/)
 
-We propose a novel Projective Spatial Transformer module that generalizes spatial transformers to projective geometry, thus enabling differentiable volume rendering. We demonstrate the usefulness of this architecture on the example of 2D/3D registration between radiographs and CT scans. Specifically, we show that our trans- former enables end-to-end learning of an image processing and projection model that approximates an image similarity function that is convex with respect to the pose parameters, and can thus be optimized effectively us- ing conventional gradient descent.
+We propose a novel Projective Spatial Transformer module that generalizes spatial transformers to projective geometry, thus enabling differentiable volume rendering. We demonstrate the usefulness of this architecture on the example of 2D/3D registration between radiographs and CT scans. Specifically, we show that our trans- former enables end-to-end learning of an image processing and projection model that approximates an image similarity function that is convex with respect to the pose parameters, and can thus be optimized effectively using conventional gradient descent.
 
-<img src="imgs/ProST.png" width="900px"/>
+<img src="imgs/Fig_ProST.png" width="900px"/>
 
 ## Setup
 
@@ -24,8 +24,4 @@ We propose a novel Projective Spatial Transformer module that generalizes spatia
 ```bash
 pip install requirements.txt
 ```
-- Clone this repo:
-```bash
-git clone https://github.com/gaocong13/Learning-to-See-Forces.git
-cd Learning-to-See-Forces/src
-```
+### Install ProST_Grid
