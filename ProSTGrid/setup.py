@@ -6,7 +6,7 @@ setup(
     ext_modules=[
         CUDAExtension('ProSTGrid', [
             'ProSTGrid.cpp',
-            'ProSTGrid_cuda_kernel.cu',
+            'ProSTGrid_kernel.cu',
         ]),
     ],
     cmdclass={
