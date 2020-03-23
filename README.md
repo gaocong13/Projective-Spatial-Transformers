@@ -41,3 +41,8 @@ ProST grid generator is installed using python setuptools.
 cd ./ProSTGrid
 python setup.py install
 ```
+The package needs to be loaded after loading torch.
+```bash
+>> import torch
+>> import ProSTGrid
+```
