@@ -17,6 +17,7 @@ We propose a novel Projective Spatial Transformer module that generalizes spatia
 ### Prerequisites
 - Linux or OSX (OSX has CPU support only)
 - NVIDIA GPU + CUDA
+- python 3.6 (recommended)
 
 ### Getting Started
 - Install torch, torchvision from https://pytorch.org/. We recommend torch >= 1.3.0, torchvision >= 0.4.0.
@@ -41,8 +42,17 @@ ProST grid generator is installed using python setuptools.
 cd ./ProSTGrid
 python setup.py install
 ```
-The package needs to be loaded after loading torch.
+The package is called ProSTGrid, which needs to be loaded after loading torch.
 ```bash
 >> import torch
 >> import ProSTGrid
 ```
+For OSX users, we provide a CPU-only version, which can be installed without CUDA support. 
+```bash
+cd ./ProSTGrid_cpuonly
+python setup_cpuonly.py install
+```
+The package is called ProSTGrid_cpu, which can be loaded the same way.
+
+### Test ProST
+We provide a toy example that illustrates ProST can be used directly for 2D/3D registration. 
