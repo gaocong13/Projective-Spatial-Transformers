@@ -2,10 +2,10 @@ from setuptools import setup
 from torch.utils.cpp_extension import BuildExtension, CUDAExtension
 
 setup(
-    name='ProSTGrid_cuda',
+    name='ProSTGrid',
     ext_modules=[
-        CUDAExtension('ProSTGrid_cuda', [
-            'ProSTGrid_cuda.cpp',
+        CUDAExtension('ProSTGrid', [
+            'ProSTGrid.cpp',
             'ProSTGrid_cuda_kernel.cu',
         ]),
     ],
