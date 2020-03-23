@@ -1,0 +1,2 @@
+# Projective_Spatial_Transformers_and_2D3D_Registrations
+Generalizing Spatial Transformers to Projective Geometry with Applications to 2D/3D Registration
