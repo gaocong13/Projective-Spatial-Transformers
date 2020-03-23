@@ -25,4 +25,11 @@ We propose a novel Projective Spatial Transformer module that generalizes spatia
 pip install requirements.txt
 ```
 ### Install ProST grid generator
-We implemented our ProST grid generator function using [PyTorch C++ and CUDA extension](https://pytorch.org/tutorials/advanced/cpp_extension.html). The implementation is inspired by [PyTorch Spatial Transformer Network C++ source code](https://github.com/pytorch/pytorch/blob/master/aten/src/ATen/native/AffineGridGenerator.cpp), but we created our own geometries and kernel functions, which is illustrated by Fig.1(a). We take the camera intrinsic parameters (usually defined by the intrinsic matrix ![K\in \mathbf{R}^{3\times 3}](https://render.githubusercontent.com/render/math?math=K%5Cin%20%5Cmathbf%7BR%7D%5E%7B3%5Ctimes%203%7D)) as input, and generate a grid variable with the shape ![B\times (M\cdot N\cdot K)\times 4](https://render.githubusercontent.com/render/math?math=B%5Ctimes%20(M%5Ccdot%20N%5Ccdot%20K)%5Ctimes%204), where B is batch size. 
+We implemented our ProST grid generator function using [PyTorch C++ and CUDA extension](https://pytorch.org/tutorials/advanced/cpp_extension.html). The implementation is inspired by the [Spatial Transformer Network PyTorch C++ source code](https://github.com/pytorch/pytorch/blob/master/aten/src/ATen/native/AffineGridGenerator.cpp), but we created our own geometries and kernel functions, which is illustrated in Fig.1(a). We take the camera intrinsic parameters (usually defined by the intrinsic matrix ![K\in \mathbf{R}^{3\times 3}](https://render.githubusercontent.com/render/math?math=K%5Cin%20%5Cmathbf%7BR%7D%5E%7B3%5Ctimes%203%7D)) as input, and generate a grid variable with shape ![B\times (M\cdot N\cdot K)\times 4](https://render.githubusercontent.com/render/math?math=B%5Ctimes%20(M%5Ccdot%20N%5Ccdot%20K)%5Ctimes%204), where B is batch size. 
+
+The input parameters include:
+- theta: [torch tensor] pose parameter, which is used for cloning basic properties of the grid tensor
+- size: [torch tensor size] size of the projection image. e.g.: proj_img.size()
+- dist_min, dist_max: [float] the min/max distance from source to the 8 corner points of the transformed volume, which is used to define the inner and outer radius of the green fan in Fig.1(a). This defines the grid ROI that covers the volume.
+- src, det: [float] normalized source and detector z coordinates in ![F^r](https://render.githubusercontent.com/render/math?math=F%5Er).
+- pix_spacing, step_size: [float] normalized 2D pixel spacing and sampling step size.
