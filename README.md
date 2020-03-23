@@ -33,6 +33,7 @@ The input parameters include:
 - dist_min, dist_max: [float] the min/max distance from source to the 8 corner points of the transformed volume, which is used to define the inner and outer radius of the green fan in Fig.1(a). This defines the grid ROI that covers the volume.
 - src, det: [float] normalized source and detector z coordinates in ![F^r](https://render.githubusercontent.com/render/math?math=F%5Er).
 - pix_spacing, step_size: [float] normalized 2D pixel spacing and sampling step size.
+
 src, det and pix_spacing can be decomposed from the intrinsic matrix ![K](https://render.githubusercontent.com/render/math?math=K). We provide function *** that takes K as input
 
 ProST grid generator is installed using python setuptools. 
