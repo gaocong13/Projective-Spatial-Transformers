@@ -55,4 +55,4 @@ python setup_cpuonly.py install
 The package is called ProSTGrid_cpu, which can be loaded the same way.
 
 ### Test ProST
-We provide a toy example that illustrates ProST can be used directly for 2D/3D registration. 
+We provide a toy example that illustrates ProST can be used directly for 2D/3D registration. Test 
