@@ -3,7 +3,7 @@
 
 Pytorch implementation of **Pro**jective **S**patial **T**ransformers (**ProST**) and training convex-shape image similarity metrics
 
-![](imgs/mov.gif)
+<video src="./imgs/movie.mp4" width="320" height="200" controls preload></video>
 
 Generalizing Spatial Transformers to Projective  Geometry with Applications to 2D/3D Registration
 [Cong Gao](http://www.cs.jhu.edu/~gaoc/), [Xingtong Liu](http://www.cs.jhu.edu/~xingtongl/), Wenhao Gu, [Mehran Armand](https://ep.jhu.edu/about-us/faculty-directory/861-mehran-armand), [Russell Taylor](https://www.cs.jhu.edu/~rht/) and [Mathias Unberath](https://mathiasunberath.github.io/)
