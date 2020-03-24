@@ -55,4 +55,11 @@ python setup_cpuonly.py install
 The package is called ProSTGrid_cpu, which can be loaded the same way.
 
 ### Test ProST
-We provide a toy example that illustrates ProST can be used directly for 2D/3D registration. Test 
+We provide a toy example that illustrates ProST can be used directly for 2D/3D registration. 
+```bash
+cd ./src
+python ProST_example_regi.py
+```
+You are expected to see a 2D/3D registration using ProST with Gradient-NCC similarity as objective function.
+
+
