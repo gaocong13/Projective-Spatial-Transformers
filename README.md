@@ -77,3 +77,5 @@ python train.py
 cd ./src
 python test.py
 ```
+## Citation
+If you use this code for your research, please cite our paper <a href=(arxiv link)>Generalizing Spatial Transformers to Projective  Geometry with Applications to 2D/3D Registration.</a>:
