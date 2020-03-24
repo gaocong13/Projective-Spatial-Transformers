@@ -25,7 +25,9 @@ We propose a novel Projective Spatial Transformer module that generalizes spatia
 ```bash
 pip install requirements.txt
 ```
-### Install ProST grid generator
+## ProST
+
+### Install grid generator
 We implemented our ProST grid generator function using [PyTorch C++ and CUDA extension](https://pytorch.org/tutorials/advanced/cpp_extension.html). The implementation is inspired by the [Spatial Transformer Network PyTorch C++ source code](https://github.com/pytorch/pytorch/blob/master/aten/src/ATen/native/AffineGridGenerator.cpp), but we created our own geometries and kernel functions, which is illustrated in Fig.1(a). We take the camera intrinsic parameters (usually defined by the intrinsic matrix ![K\in \mathbf{R}^{3\times 3}](https://render.githubusercontent.com/render/math?math=K%5Cin%20%5Cmathbf%7BR%7D%5E%7B3%5Ctimes%203%7D)) as input, and generate a grid variable with shape ![B\times (M\cdot N\cdot K)\times 4](https://render.githubusercontent.com/render/math?math=B%5Ctimes%20(M%5Ccdot%20N%5Ccdot%20K)%5Ctimes%204), where B is batch size. 
 
 The input parameters include:
@@ -62,4 +64,16 @@ python ProST_example_regi.py
 ```
 You are expected to see a 2D/3D registration using ProST with Gradient-NCC similarity as objective function.
 
+## Deepnet Approximating Convex Image Similarity Metrics
+<img src="imgs/Fig_Deepnet.png" width="900px"/>
 
+### Train
+```bash
+cd ./src
+python train.py
+```
+### Test
+```bash
+cd ./src
+python test.py
+```
