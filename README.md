@@ -1,18 +1,19 @@
 # Projective-Spatial-Transformers
 [Project](webpagelink) | [Paper](https://arxiv.org/abs/2003.10987) | [Video](https://www.youtube.com/watch?v=wcgsGlOxfsM&list=UUiNYwIaDvyjptJUZEkgSnug)
 
-Pytorch implementation of **Pro**jective **S**patial **T**ransformers (**ProST**) and training convex-shape image similarity metrics
+Pytorch implementation of **Pro**jective **S**patial **T**ransformers (**ProST**) and training convex-shape image similarity metrics.
 
 ![](./imgs/movie.gif)
 
 We propose a novel Projective Spatial Transformer module that generalizes spatial transformers to projective geometry, thus enabling differentiable volume rendering. We demonstrate the usefulness of this architecture on the example of 2D/3D registration between radiographs and CT scans. Specifically, we show that our transformer enables end-to-end learning of an image processing and projection model that approximates an image similarity function that is convex with respect to the pose parameters, and can thus be optimized effectively using conventional gradient descent.
 
-<img src="imgs/Fig_ProST.png" width="900px"/>
-
 ## Citation
 If you use this code for your research, please cite our paper:
-*Generalizing Spatial Transformers to Projective  Geometry with Applications to 2D/3D Registration.*
+
+***Generalizing Spatial Transformers to Projective  Geometry with Applications to 2D/3D Registration.***
 [Cong Gao](http://www.cs.jhu.edu/~gaoc/), [Xingtong Liu](http://www.cs.jhu.edu/~xingtongl/), [Wenhao Gu](https://www.linkedin.com/in/wenhao-gu-aa7815b0/), [Mehran Armand](https://ep.jhu.edu/about-us/faculty-directory/861-mehran-armand), [Russell Taylor](https://www.cs.jhu.edu/~rht/) and [Mathias Unberath](https://mathiasunberath.github.io/). (<a href="https://arxiv.org/abs/2003.10987">arXiv:2003.10987</a>)
+
+<img src="imgs/Fig_ProST.png" width="900px"/>
 
 ## Setup
 
