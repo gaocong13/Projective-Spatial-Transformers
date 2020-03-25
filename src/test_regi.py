@@ -24,8 +24,9 @@ MANUAL_TEST = False
 SE3_GROUP = SpecialEuclideanGroup(n=3)
 METRIC = SE3_GROUP.left_canonical_metric
 
-CT_PATH = '../data/CT128_new.nii'
+CT_PATH = '../data/CT128.nii'
 SEG_PATH = '../data/CTSeg128.nii'
+VOX_SPAC = 2.33203125
 
 SAVE_PATH = '../data/save_model'
 RESUME_EPOCH = 90
@@ -35,12 +36,13 @@ switch_trd = 0.003
 stop_trd = 1e-4
 zFlip = False
 
-RESUME_MODEL = SAVE_PATH+'/vali_model'+str(RESUME_EPOCH)+'.pt'
+
+RESUME_MODEL = SAVE_PATH+'/pretrain.pt'
 
 def train():
     criterion_mse = nn.MSELoss()
     criterion_gradncc = gradncc
-    param, det_size, _3D_vol, CT_vol, ray_proj_mov, corner_pt, norm_factor = input_param(CT_PATH, SEG_PATH, BATCH_SIZE, 2.33203125, zFlip)
+    param, det_size, _3D_vol, CT_vol, ray_proj_mov, corner_pt, norm_factor = input_param(CT_PATH, SEG_PATH, BATCH_SIZE, VOX_SPAC, zFlip)
 
     initmodel = ProST_init(param).to(device)
     model = RegiNet(param, det_size).to(device)

@@ -13,7 +13,7 @@ PI = 3.1415926
 NUM_PHOTON = 10000
 ITER_STEPS = 100
 
-CT_PATH = '../data/CT128_new.nii'
+CT_PATH = '../data/CT128.nii'
 SEG_PATH = '../data/CTSeg128.nii'
 BATCH_SIZE = 1
 

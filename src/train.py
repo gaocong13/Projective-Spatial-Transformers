@@ -23,29 +23,27 @@ BATCH_SIZE = 2
 EPS = 1e-10
 ITER_NUM = 200
 clipping_value = 10
-VALI_EVERY_EPOCH = 10
 SAVE_MODEL_EVERY_EPOCH = 5
-VALI_ITER_STEPS = 40
 
 SE3_GROUP = SpecialEuclideanGroup(n=3)
 RiemMetric = RiemannianMetric(dimension=6)
 METRIC = SE3_GROUP.left_canonical_metric
 riem_dist_fun = RiemMetric.dist
 
-CT_PATH = '../data/CT128_new.nii'
+CT_PATH = '../data/CT128.nii'
 SEG_PATH = '../data/CTSeg128.nii'
 SAVE_PATH = '../data/save_model'
+VOX_SPAC = 2.33203125
 
 RESUME_EPOCH = -1 #-1 means training from scratch
 RESUME_MODEL = SAVE_PATH+'/checkpoint/vali_model'+str(RESUME_EPOCH)+'.pt'
 
-ISflip = False
-
+zFlip = False
 
 def train():
     criterion_mse = nn.MSELoss()
 
-    param, det_size, _3D_vol, CT_vol, ray_proj_mov, corner_pt, norm_factor = input_param(CT_PATH, SEG_PATH, BATCH_SIZE)
+    param, det_size, _3D_vol, CT_vol, ray_proj_mov, corner_pt, norm_factor = input_param(CT_PATH, SEG_PATH, BATCH_SIZE, VOX_SPAC, zFlip)
 
     initmodel = ProST_init(param).to(device)
     model = RegiNet(param, det_size).to(device)
@@ -168,4 +166,3 @@ def train():
 
 if __name__ == "__main__":
     train()
-
