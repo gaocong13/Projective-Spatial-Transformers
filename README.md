@@ -1,10 +1,5 @@
-<<<<<<< HEAD
-# Projective-Spatial-Transformers-and-2D3D-Registrations
-[Project](webpagelink) | [Paper](https://arxiv.org/pdf/2003.10987.pdf) | [Video](youtubelink)
-=======
 # Projective-Spatial-Transformers
-[Project](webpagelink) | [Paper](arxivlink) | [Video](youtubelink)
->>>>>>> 68d990d19df83c1907495f011ee12cc717d53267
+[Project](webpagelink) | [Paper](https://arxiv.org/abs/2003.10987) | [Video](https://www.youtube.com/watch?v=wcgsGlOxfsM&list=UUiNYwIaDvyjptJUZEkgSnug)
 
 Pytorch implementation of **Pro**jective **S**patial **T**ransformers (**ProST**) and training convex-shape image similarity metrics
 
