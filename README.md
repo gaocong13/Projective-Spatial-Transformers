@@ -85,5 +85,5 @@ We upload a pretrain model and a test registration code. It is using the method 
 cd ./src
 python test_regi.py
 ```
-
+## Contact
 If you have any questions, please post through github issue, or contact cgao11@jhu.edu.
