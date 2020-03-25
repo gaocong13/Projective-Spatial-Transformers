@@ -10,10 +10,10 @@ Pytorch implementation of **Pro**jective **S**patial **T**ransformers (**ProST**
 
 We propose a novel Projective Spatial Transformer module that generalizes spatial transformers to projective geometry, thus enabling differentiable volume rendering. We demonstrate the usefulness of this architecture on the example of 2D/3D registration between radiographs and CT scans. Specifically, we show that our transformer enables end-to-end learning of an image processing and projection model that approximates an image similarity function that is convex with respect to the pose parameters, and can thus be optimized effectively using conventional gradient descent.
 
+<img src="imgs/Fig_ProST.png" width="900px"/>
+
 ## Citation
 If you use this code for your research, please cite our paper <a href="https://arxiv.org/abs/2003.10987">Generalizing Spatial Transformers to Projective  Geometry with Applications to 2D/3D Registration.</a>
-
-<img src="imgs/Fig_ProST.png" width="900px"/>
 
 ## Setup
 
