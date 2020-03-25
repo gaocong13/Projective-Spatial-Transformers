@@ -71,7 +71,7 @@ You are expected to see a 2D/3D registration using ProST with Gradient-NCC simil
 <img src="imgs/Fig_Deepnet.png" width="900px"/>
 
 ### Data
-We uploaded an example cropped CT scan, which centers the pelvis volume, and the corresponding pelvis segmentation. They are './data/CT128.nii' and './data/CTSeg128'. We first upsample the original acquisition to be 0.5mm isotropic voxel size, and then we crop the CT to be cubic and then downsample to 128* 128* 128 cubic volume.
+We uploaded an example cropped CT scan, which centers the pelvis volume, and the corresponding pelvis segmentation. They are './data/CT128.nii' and './data/CTSeg128'. We first upsample the original acquisition to be 0.5 mm isotropic voxel size, and then we crop the CT to be cubic and then downsample to 128* 128* 128 cubic volume.
 
 ### Train
 Training code of our deepnet architecture is provided. 
@@ -83,5 +83,7 @@ python train.py
 We upload a pretrain model and a test registration code. It is using the method of Net+GradNCC as stated in our paper.
 ```bash
 cd ./src
-python test.py
+python test_regi.py
 ```
+
+If you have any questions, please post through github issue, or contact cgao11@jhu.edu.
