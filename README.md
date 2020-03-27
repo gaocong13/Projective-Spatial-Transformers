@@ -10,8 +10,16 @@ We propose a novel Projective Spatial Transformer module that generalizes spatia
 ## Citation
 If you use this code for your research, please cite our paper:
 
-<a href="https://arxiv.org/abs/2003.10987">Generalizing Spatial Transformers to Projective  Geometry with Applications to 2D/3D Registration.</a>
+***Generalizing Spatial Transformers to Projective  Geometry with Applications to 2D/3D Registration.***
 [Cong Gao](http://www.cs.jhu.edu/~gaoc/), [Xingtong Liu](http://www.cs.jhu.edu/~xingtongl/), [Wenhao Gu](https://www.linkedin.com/in/wenhao-gu-aa7815b0/), [Mehran Armand](https://ep.jhu.edu/about-us/faculty-directory/861-mehran-armand), [Russell Taylor](https://www.cs.jhu.edu/~rht/) and [Mathias Unberath](https://mathiasunberath.github.io/). (<a href="https://arxiv.org/abs/2003.10987">arXiv:2003.10987</a>)
+```
+@article{gao2020generalizing,
+title={Generalizing Spatial Transformers to Projective Geometry with Applications to 2D/3D Registration},
+author={Gao, Cong and Liu, Xingtong and Gu, Wenhao and Killeen, Benjamin and Armand, Mehran and Taylor, Russell and Unberath, Mathias},
+journal={arXiv preprint arXiv:2003.10987},
+year={2020}
+}
+```
 
 <img src="imgs/Fig_ProST.png" width="900px"/>
 
