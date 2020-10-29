@@ -11,7 +11,7 @@ from module import RegiNet, ProST_init, Pelvis_Dataset
 from util import gradncc, init_rtvec_test, input_param
 from util_plot import plot_test_iter_comb
 
-from geomstats.special_euclidean_group import SpecialEuclideanGroup
+from geomstats.geometry.special_euclidean import SpecialEuclidean
 
 device = torch.device("cuda")
 PI = 3.1415926
@@ -21,7 +21,7 @@ ITER_STEPS = 500
 
 MANUAL_TEST = False
 
-SE3_GROUP = SpecialEuclideanGroup(n=3)
+SE3_GROUP = SpecialEuclidean(n=3)
 METRIC = SE3_GROUP.left_canonical_metric
 
 CT_PATH = '../data/CT128.nii'

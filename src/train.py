@@ -12,9 +12,9 @@ from torch.optim.lr_scheduler import StepLR, CyclicLR
 from module import RegiNet, Pelvis_Dataset, ProST_init
 from util import ncc, input_param, count_parameters, init_rtvec_train
 
-from geomstats.special_euclidean_group import SpecialEuclideanGroup
-from geomstats.riemannian_metric import RiemannianMetric
-import geomstats.riemannian_metric as riem
+from geomstats.geometry.special_euclidean import SpecialEuclidean
+from geomstats.geometry.riemannian_metric import RiemannianMetric
+import geomstats.geometry.riemannian_metric as riem
 
 device = torch.device("cuda")
 PI = 3.1415926
@@ -25,8 +25,8 @@ ITER_NUM = 200
 clipping_value = 10
 SAVE_MODEL_EVERY_EPOCH = 5
 
-SE3_GROUP = SpecialEuclideanGroup(n=3)
-RiemMetric = RiemannianMetric(dimension=6)
+SE3_GROUP = SpecialEuclidean(n=3)
+RiemMetric = RiemannianMetric(dim=6)
 METRIC = SE3_GROUP.left_canonical_metric
 riem_dist_fun = RiemMetric.dist
 
