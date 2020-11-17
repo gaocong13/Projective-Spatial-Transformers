@@ -36,7 +36,7 @@ torch::Tensor ProST_grid_generator_5D_cpu_forward(
   auto tmp_range_x = range;
   auto tmp_range_y = range;
   auto tmp_range_z = range;
-  
+
   float idx, idy, ray_len_idx, x_to_vec, y_to_vec, z_to_vec;
   // For loop over batch size
   for(int cntn = 0; cntn < N; cntn++){
@@ -65,15 +65,13 @@ torch::Tensor ProST_grid_generator_5D_cpu_forward(
       }
     }
   }
-  return ProST_grid;
+  return ProST_grid.view({N, -1, 4});;
 }
 
 torch::Tensor ProST_grid_generator_forward(const torch::Tensor &theta, torch::IntArrayRef size, float dist_min, float dist_max, float src, float det, float pix_spacing, float step_size, bool align_corners) {
   return ProST_grid_generator_5D_cpu_forward(theta, size[0], size[1], size[2], size[3], dist_min, dist_max, src, det, pix_spacing, step_size, align_corners);
 }
-  
+
 PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
 	m.def("forward", &ProST_grid_generator_forward, "ProSTGrid Generator (CPU)");
-}  
-
-
+}
