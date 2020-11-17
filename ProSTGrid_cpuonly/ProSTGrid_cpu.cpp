@@ -65,7 +65,7 @@ torch::Tensor ProST_grid_generator_5D_cpu_forward(
       }
     }
   }
-  return ProST_grid.view({N, -1, 4});;
+  return ProST_grid.view({N, -1, 4});
 }
 
 torch::Tensor ProST_grid_generator_forward(const torch::Tensor &theta, torch::IntArrayRef size, float dist_min, float dist_max, float src, float det, float pix_spacing, float step_size, bool align_corners) {
