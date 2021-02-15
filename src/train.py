@@ -25,7 +25,7 @@ ITER_NUM = 200
 clipping_value = 10
 SAVE_MODEL_EVERY_EPOCH = 5
 
-SE3_GROUP = SpecialEuclidean(n=3)
+SE3_GROUP = SpecialEuclidean(n=3, point_type='vector')
 RiemMetric = RiemannianMetric(dim=6)
 METRIC = SE3_GROUP.left_canonical_metric
 riem_dist_fun = RiemMetric.dist
