@@ -15,7 +15,7 @@ criterion = nn.MSELoss()
 def hounsfield2linearatten(vol):
     vol = vol.astype(float)
     mu_water_ = 0.02683*1.0
-    mu_air_   = 0.02485*0.0001
+    mu_air_   = 0.02485*0.001
     hu_lower_ = -1000
     hu_scale_ = (mu_water_ - mu_air_) * 0.001
     mu_lower_ = (hu_lower_ * hu_scale_) + mu_water_
