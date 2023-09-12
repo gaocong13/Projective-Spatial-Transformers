@@ -25,14 +25,10 @@ import matplotlib.pyplot as plt
 plt.rcParams.update({'font.size': 15})
 import random
 
-from module import ProST_init_multict, RegiNet_multict, RegiNet3d_multict
-from module_grid import ProST_init_multict_grid, RegiNet_multict_grid
-
 from module_vit import RegiNet_CrossViTv2_SW
 from posevec2mat import euler2mat
 from util import gradncc, count_parameters, norm_target, generate_fixed_grid, convert_numpy_euler_rtvec_to_mat4x4, \
                  convert_transform_mat4x4_to_rtvec
-from util_plot import plot_run_stat_mse, plot_run_stat_geo, plot_geomag_run_stat
 from util_aug import aug_torch_target
 
 from geomstats.geometry.special_euclidean import SpecialEuclidean
@@ -54,14 +50,6 @@ RiemMetric = RiemannianMetric(dim=6)
 METRIC = SE3_GROUP.left_canonical_metric
 riem_dist_fun = RiemMetric.dist
 
-zFlip = False
-MICCAIgeom = True
-valid_offset_rot = 50.
-valid_offset_trans = 60.
-valid_transZoffset_scale = 5 # valid_offset_transZ = valid_offset_trans * valid_transZoffset_scale
-valid_num_sample = 50
-VALID_BATCH_SIZE = 1
-valid_iter_plot = False
 # Every 10 epochs clear loss cache list
 EPOCH_LOSS_CACHE = 10
 
@@ -74,26 +62,6 @@ torch.backends.cudnn.benchmark = False
 torch.backends.cudnn.deterministic = True
 random.seed(seed)
 np.random.seed(seed)
-
-def rand_smp_rtvec(euler_rtvec_gt):
-    smp_sigma = 0.15
-    euler_rtvec_smp = np.random.normal(0, smp_sigma, (BATCH_SIZE, 6))
-    # euler_rtvec_smp = np.clip(euler_rtvec_smp, -2*smp_sigma, 2*smp_sigma)
-    euler_rtvec_smp[:, :3] = euler_rtvec_smp[:, :3] * 0.35 * PI
-
-    euler_rtvec_init = euler_rtvec_smp + euler_rtvec_gt
-    rtvec_torch = torch.tensor(euler_rtvec_init, dtype=torch.float, requires_grad=True, device=device)
-    rtvec_gt_torch = torch.tensor(euler_rtvec_gt, dtype=torch.float, requires_grad=True, device=device)
-
-    rot_mat = euler2mat(rtvec_torch[:, :3])
-    angle_axis = tgm.rotation_matrix_to_angle_axis(torch.cat([rot_mat,  torch.zeros(BATCH_SIZE, 3, 1).to(device)], dim=-1))
-    rtvec = torch.cat([angle_axis, rtvec_torch[:, 3:]], dim=-1)
-
-    rot_mat_gt = euler2mat(rtvec_gt_torch[:, :3])
-    angle_axis_gt = tgm.rotation_matrix_to_angle_axis(torch.cat([rot_mat_gt,  torch.zeros(BATCH_SIZE, 3, 1).to(device)], dim=-1))
-    rtvec_gt = torch.cat([angle_axis_gt, rtvec_gt_torch[:, 3:]], dim=-1)
-
-    return rtvec, rtvec_gt
 
 def rand_smp_ang_rtvec(ang_rtvec_gt, norm_factor):
     euler_rtvec_smp = np.concatenate((np.random.normal(0, 25, (BATCH_SIZE, 3)), # Sample euler rotation
@@ -126,17 +94,11 @@ if __name__ == "__main__":
     parser.add_argument('--loss-info-freq', help='Number of epochs to plot loss fig and save to disk', type=int, default=50)
     parser.add_argument('--no-3d-ori', help='Not performing ResNet 3D CT connection', action='store_true', default=False)
     parser.add_argument('--no-3d-net', help='No 3D network for ablation study', action='store_true', default=False)
-    parser.add_argument('--grad-geo-loss', help='Compute loss using geodesic loss between two gradient vectors', action='store_true', default=False)
     parser.add_argument('--aug', help='Perform image augmentation', action='store_true', default=False)
     parser.add_argument('--iter-fig-freq', help='Number of iterations to save a debug plot figure to disk folder', type=int, default=50)
-    parser.add_argument('--debug-plot', help='Plotting iterative moving image during sampling', action='store_true', default=False)
     parser.add_argument('-n', '--no-writing-to-disk', help='Not creating folders or writing anything to disk', action='store_true', default=False)
     parser.add_argument('--log-nan-tensor', help='Log related tensors to disk if nan happens', action='store_true', default=False)
-    parser.add_argument('--tensorboard_writer', help='Enable tensorboard writer', action='store_true', default=False)
     parser.add_argument('--valid', help='Perform validation to plot loss shape', action='store_true', default=False)
-    parser.add_argument('--val-freq', help='Frequency to perform sim loss validation', type=int, default=100)
-    parser.add_argument('--val-ct-id', help='Validation CT Index in the CT List', type=int, default=0)
-    parser.add_argument('--val-proj-id', help='Validation Projection Index in the CT group', type=int, default=0)
     parser.add_argument('--ang-normal-smp', help='Normal sampling moving data pose on angle axis', action='store_true', default=False)
     parser.add_argument('--no-sim-norm', help='Do not normalize similarity metric during validation loss plot', action='store_true', default=True)
     parser.add_argument('--cuda-id', help='Specify CUDA id when training on pong', type=str, default="")
@@ -156,14 +118,8 @@ if __name__ == "__main__":
     SAVE_DEBUG_PLOT_EVERY_ITER = args.iter_fig_freq
     NO_3D_ORI = args.no_3d_ori
     NO_3D_NET = args.no_3d_net
-    grad_geo_loss = args.grad_geo_loss
-    debug_plot = args.debug_plot
     writing_to_disk = not args.no_writing_to_disk
     log_nan_tensor = args.log_nan_tensor
-    log_tensorboard_writer = args.tensorboard_writer
-    val_ct_id = args.val_ct_id
-    val_proj_id = args.val_proj_id
-    no_valid_sim_norm = args.no_sim_norm
     cuda_id = args.cuda_id
 
     # This is specifically to run on pong
@@ -173,41 +129,13 @@ if __name__ == "__main__":
     checkpoint_folder = SAVE_PATH + '/checkpoint'
     resumed_checkpoint_filename = checkpoint_folder + '/vali_model'+str(RESUME_EPOCH)+'.pt'
 
-    tensorboard_writer_folder = SAVE_PATH + "/run_log_dir"
     log_nan_tensor_file = SAVE_PATH + "/run_log_dir/saved_tensor"
-    stat_figs_folder = SAVE_PATH + "/stat_figs"
-    sim_loss_debug_folder = SAVE_PATH + "/sim_loss_figs"
-    iter_proj_debug_folder = SAVE_PATH + "/iter_projs"
 
     log = logging.getLogger('deepdrr')
     log.propagate = False
 
-    if RESUME_EPOCH>=0:
-        prev_state = torch.load(resumed_checkpoint_filename)
-
-        print('loading training params from checkpoint state dict...')
-        STEP_SIZE                   = prev_state['grid-step-size']
-        ITER_NUM                    = prev_state['iter-num']
-        START_EPOCH                 = prev_state['epoch'] + 1
-        step_cnt                    = prev_state['epoch'] * ITER_NUM
-        SAVE_MODEL_EVERY_EPOCH      = prev_state['save-freq']
-        SAVE_DEBUG_PLOT_EVERY_ITER  = prev_state['debug-plot-freq']
-        NO_3D_ORI                   = prev_state['no-3d-ori']
-        NO_3D_NET                   = prev_state['no-3d-net']
-        debug_plot                  = prev_state['debug-plot']
-        writing_to_disk             = prev_state['writing-to-disk']
-        log_nan_tensor              = prev_state['log-nan-tensor']
-        log_tensorboard_writer      = prev_state['tensorboard-writer']
-        val_ct_id                   = prev_state['valid-ct-id']
-        val_proj_id                 = prev_state['valid-proj-id']
-        BATCH_SIZE                  = prev_state['batch-size']
-        grad_geo_loss               = prev_state['grad-geo-loss']
-        np.random.set_state(prev_state['numpy-random-state'])
-        torch.set_rng_state(prev_state['torch-random-state'])
-        torch.cuda.set_rng_state(prev_state['cuda-random-state'])
-    else:
-        START_EPOCH = 0
-        step_cnt = 0
+    START_EPOCH = 0
+    step_cnt = 0
 
     if writing_to_disk:
         if not os.path.exists(SAVE_PATH):
@@ -218,31 +146,9 @@ if __name__ == "__main__":
             print('Creating...' + checkpoint_folder)
             os.mkdir(checkpoint_folder)
 
-        if not os.path.exists(tensorboard_writer_folder):
-            print('Creating...' + tensorboard_writer_folder)
-            os.mkdir(tensorboard_writer_folder)
-
         if not os.path.exists(log_nan_tensor_file):
             print('Creating...' + log_nan_tensor_file)
             os.mkdir(log_nan_tensor_file)
-
-        if not os.path.exists(stat_figs_folder):
-            print('Creating...' + stat_figs_folder)
-            os.mkdir(stat_figs_folder)
-
-        if not os.path.exists(sim_loss_debug_folder):
-            print('Creating...' + sim_loss_debug_folder)
-            os.mkdir(sim_loss_debug_folder)
-
-        if debug_plot and not os.path.exists(iter_proj_debug_folder):
-            print('Creating...' + iter_proj_debug_folder)
-            os.mkdir(iter_proj_debug_folder)
-
-        with open(SAVE_PATH + '/printlog.txt', 'a') as f:
-            f.write('\nNew restart...\n')
-
-        with open(SAVE_PATH + '/printout.txt', 'a') as f:
-            f.write('\nNew restart...\n')
 
     hf = h5py.File(H5_File, 'r')
 
@@ -334,15 +240,8 @@ if __name__ == "__main__":
             elif len(vals) == 3 and vals[-1] and (not encoder_share_weights):
                 encode_mov = vals[0]
                 encode_tar = vals[1]
-            elif debug_plot and len(vals) == 4 and vals[-1] and (not encoder_share_weights):
-                encode_mov = vals[0]
-                encode_tar = vals[1]
-                proj_mov = vals[2]
             elif len(vals) == 2 and vals[-1] and encoder_share_weights:
                 encode_out = vals[0]
-            elif debug_plot and len(vals) == 3 and vals[-1] and encoder_share_weights:
-                encode_out = vals[0]
-                proj_mov = vals[1]
             else:
                 print('Invalid Model Return!!!!!')
                 continue
@@ -395,21 +294,9 @@ if __name__ == "__main__":
                          'end-epoch'            : END_EPOCH,
                          'save-freq'            : SAVE_MODEL_EVERY_EPOCH,
                          'debug-plot-freq'      : SAVE_DEBUG_PLOT_EVERY_ITER,
-                         'norm-ct'              : NORM_CT,
-                         'no-3d-ori'            : NO_3D_ORI,
-                         'no-3d-net'            : NO_3D_NET,
-                         'debug-plot'           : debug_plot,
                          'writing-to-disk'      : writing_to_disk,
                          'log-nan-tensor'       : log_nan_tensor,
-                         'tensorboard-writer'   : log_tensorboard_writer,
-                         'valid-ct-id'          : val_ct_id,
-                         'valid-proj-id'        : val_proj_id,
-                         'use-fixed-grid'       : use_fixed_grid,
                          'batch-size'           : BATCH_SIZE,
-                         'geo-mag-loss'         : geo_mag_loss,
-                         'grad-mag-loss'        : grad_mag_loss,
-                         'grad-geo-loss'        : grad_geo_loss,
-                         'same-batch-target'    : same_batch_target,
                          'random-state'         : random.getstate(),
                          'numpy-random-state'   : np.random.get_state(),
                          'torch-random-state'   : torch.get_rng_state(),
