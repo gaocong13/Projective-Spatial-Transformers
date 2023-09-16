@@ -129,8 +129,6 @@ if __name__ == "__main__":
     checkpoint_folder = SAVE_PATH + '/checkpoint'
     resumed_checkpoint_filename = checkpoint_folder + '/vali_model'+str(RESUME_EPOCH)+'.pt'
 
-    log_nan_tensor_file = SAVE_PATH + "/run_log_dir/saved_tensor"
-
     log = logging.getLogger('deepdrr')
     log.propagate = False
 
@@ -146,10 +144,6 @@ if __name__ == "__main__":
             print('Creating...' + checkpoint_folder)
             os.mkdir(checkpoint_folder)
 
-        if not os.path.exists(log_nan_tensor_file):
-            print('Creating...' + log_nan_tensor_file)
-            os.mkdir(log_nan_tensor_file)
-
     hf = h5py.File(H5_File, 'r')
 
     CT_DATA_LIST = hf.get("ct-list")
@@ -160,7 +154,7 @@ if __name__ == "__main__":
     # Training Setup
     criterion_mse = nn.MSELoss()
     NORM_MOV = False
-    model = RegiNet_CrossViTv2_SW(log_nan_tensor_file, debug_plot, NORM_MOV, NO_3D_ORI, NO_3D_NET).to(device)
+    model = RegiNet_CrossViTv2_SW().to(device)
     encoder_share_weights = True
     
     optimizer = optim.SGD(model.parameters(), lr=1e-4, momentum=0.9)

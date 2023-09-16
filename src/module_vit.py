@@ -15,9 +15,8 @@ def transform_nan_check(dist_min, dist_max, transform_mat4x4, transform_mat3x4):
 
 
 class RegiNet_CrossViTv2_SW(nn.Module):
-    def __init__(self, SAVE_PATH):
+    def __init__(self):
         super(RegiNet_CrossViTv2_SW, self).__init__()
-        self.save_path = SAVE_PATH
 
         # Define 3D convolutional layers        
         self._3D_conv = nn.Sequential(
