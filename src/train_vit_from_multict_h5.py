@@ -285,15 +285,6 @@ if __name__ == "__main__":
                          'grid-step-size'       : STEP_SIZE,
                          'iter-num'             : ITER_NUM,
                          'end-epoch'            : END_EPOCH,
-                         'save-freq'            : SAVE_MODEL_EVERY_EPOCH,
-                         'debug-plot-freq'      : SAVE_DEBUG_PLOT_EVERY_ITER,
-                         'writing-to-disk'      : writing_to_disk,
-                         'log-nan-tensor'       : log_nan_tensor,
-                         'batch-size'           : BATCH_SIZE,
-                         'random-state'         : random.getstate(),
-                         'numpy-random-state'   : np.random.get_state(),
-                         'torch-random-state'   : torch.get_rng_state(),
-                         'cuda-random-state'    : torch.cuda.get_rng_state()
                           },
                        tmp_name)
             shutil.move(tmp_name, net_path)
