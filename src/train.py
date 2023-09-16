@@ -279,12 +279,7 @@ if __name__ == "__main__":
             torch.save({ 'epoch'                : epoch,
                          'model-state-dict'     : model.state_dict(),
                          'optimizer-state-dict' : optimizer.state_dict(),
-                         'scheduler-state-dict' : scheduler.state_dict(),
-                         'save-path'            : SAVE_PATH,
-                         'h5-file'              : H5_File,
-                         'grid-step-size'       : STEP_SIZE,
-                         'iter-num'             : ITER_NUM,
-                         'end-epoch'            : END_EPOCH,
+                         'scheduler-state-dict' : scheduler.state_dict()
                           },
                        tmp_name)
             shutil.move(tmp_name, net_path)
