@@ -1,4 +1,5 @@
 from vit_pytorch.cross_vit import CrossViT
+import torch
 import torch.nn as nn
 from util import _bilinear_interpolate_no_torch_5D
 import torchgeometry as tgm
