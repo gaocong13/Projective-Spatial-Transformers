@@ -66,7 +66,7 @@ class RegiNet_CrossViTv2_SW(nn.Module):
         step_size = param[3]
 
         x_exp = x.repeat(1,3,1,1,1)
-        x_3d = self._3D_conv(x) if self.no_3d_ori else x_exp + self._3D_conv(x)
+        x_3d = x_exp + self._3D_conv(x)
 
         BATCH_SIZE = theta.size()[0]
         H = y.size()[2]
