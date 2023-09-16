@@ -271,9 +271,8 @@ if __name__ == "__main__":
 
             cur_lr = float(scheduler.get_lr()[0])
 
-            print('Train epoch: {} Iter: {} RegiSim: {:.4f}, gLoss: {:.4f} ± {:.2f}, LR: {:.4f} * 10^-5'.format(
-                        epoch, iter, np.mean(total_loss_list), np.mean(riem_grad_loss_list), np.std(riem_grad_loss_list),
-                        cur_lr * 100000, sys.stdout))
+            print('Train epoch: {} Iter: {}, LR: {:.4f} * 10^-5'.format(
+                        epoch, iter, cur_lr * 100000, sys.stdout))
 
         def save_net(net_path):
             tmp_name = '{}.tmp'.format(net_path)
