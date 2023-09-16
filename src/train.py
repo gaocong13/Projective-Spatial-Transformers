@@ -91,35 +91,21 @@ if __name__ == "__main__":
     parser.add_argument('--iter-num', help='Number of iterations per epoch', type=int, default=50)
     parser.add_argument('--epoch-num', help='Number of epochs for training', type=int, default=2000)
     parser.add_argument('--save-freq', help='Number of epochs to save a model to disk', type=int, default=100)
-    parser.add_argument('--loss-info-freq', help='Number of epochs to plot loss fig and save to disk', type=int, default=50)
-    parser.add_argument('--no-3d-ori', help='Not performing ResNet 3D CT connection', action='store_true', default=False)
-    parser.add_argument('--no-3d-net', help='No 3D network for ablation study', action='store_true', default=False)
-    parser.add_argument('--aug', help='Perform image augmentation', action='store_true', default=False)
     parser.add_argument('--iter-fig-freq', help='Number of iterations to save a debug plot figure to disk folder', type=int, default=50)
     parser.add_argument('-n', '--no-writing-to-disk', help='Not creating folders or writing anything to disk', action='store_true', default=False)
-    parser.add_argument('--log-nan-tensor', help='Log related tensors to disk if nan happens', action='store_true', default=False)
-    parser.add_argument('--valid', help='Perform validation to plot loss shape', action='store_true', default=False)
-    parser.add_argument('--ang-normal-smp', help='Normal sampling moving data pose on angle axis', action='store_true', default=False)
-    parser.add_argument('--no-sim-norm', help='Do not normalize similarity metric during validation loss plot', action='store_true', default=True)
     parser.add_argument('--cuda-id', help='Specify CUDA id when training on pong', type=str, default="")
 
     args = parser.parse_args()
 
     SAVE_PATH = args.save_path
     H5_File = args.h5_file
-    net = 'CrossViTv2_SW'
     RESUME_EPOCH = args.resume_epoch
     BATCH_SIZE = args.batch_size
     STEP_SIZE = args.step_size
     ITER_NUM = args.iter_num
     END_EPOCH = args.epoch_num
     SAVE_MODEL_EVERY_EPOCH = args.save_freq
-    LOSS_INFO_EVERY_EPOCH = args.loss_info_freq
-    SAVE_DEBUG_PLOT_EVERY_ITER = args.iter_fig_freq
-    NO_3D_ORI = args.no_3d_ori
-    NO_3D_NET = args.no_3d_net
     writing_to_disk = not args.no_writing_to_disk
-    log_nan_tensor = args.log_nan_tensor
     cuda_id = args.cuda_id
 
     # This is specifically to run on pong
@@ -227,7 +213,7 @@ if __name__ == "__main__":
             target = aug_torch_target(target, device)
 
             # Do Projection and get two encodings
-            vals = model(_3D_vol, target, rtvec, corner_pt, param, log_nan_tensor=log_nan_tensor)
+            vals = model(_3D_vol, target, rtvec, corner_pt, param)
 
             if type(vals) == bool and (not vals):# and (not vals[0])
                 continue
@@ -276,8 +262,7 @@ if __name__ == "__main__":
 
         def save_net(net_path):
             tmp_name = '{}.tmp'.format(net_path)
-            torch.save({ 'epoch'                : epoch,
-                         'model-state-dict'     : model.state_dict(),
+            torch.save({ 'model-state-dict'     : model.state_dict(),
                          'optimizer-state-dict' : optimizer.state_dict(),
                          'scheduler-state-dict' : scheduler.state_dict()
                           },
